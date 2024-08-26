@@ -1,13 +1,14 @@
-// ignore_for_file: avoid_unnecessary_containers
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suky/src/components/caroussel/carroussel.dart';
 import 'package:suky/src/components/custom_appbar.dart';
+import 'package:suky/src/components/custom_bottom_navigation_bar.dart';
 import 'package:suky/src/components/custom_icon_button.dart';
 import 'package:suky/src/components/custom_text_field.dart';
 import 'package:suky/src/models/estatisticas_card_model.dart';
+import 'package:suky/src/models/mensagens_card_model.dart';
 import 'package:suky/src/pages/em_desenvolvimento.dart';
 
 class Home extends StatefulWidget {
@@ -23,10 +24,21 @@ class _HomeState extends State<Home> {
 
   List<EstatisticasCardModel> get estatisticasCards => _estatisticasCards;
 
+  final RxList<MensagensCardModel> _mensagensCards = <MensagensCardModel>[].obs;
+
+  List<MensagensCardModel> get mensagensCards => _mensagensCards;
+
+  final RxInt _selectedIndex = 0.obs;
+
+  void _onItemTapped(int index) {
+    _selectedIndex.value = index;
+  }
+
   @override
   void initState() {
     super.initState();
     _estatisticasCards.addAll(EstatisticasCardModel().gerarEstatisticas());
+    _mensagensCards.addAll(MensagensCardModel().gerarMensagens());
   }
 
   @override
@@ -93,7 +105,8 @@ class _HomeState extends State<Home> {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
                 child: Row(
                   children: [
                     Text(
@@ -122,29 +135,174 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(right: 13.0),
                           child: SizedBox(
                             width: 120.0,
-                            child: Card(
-                              color: const Color.fromARGB(255, 138, 25, 214),
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      estatisticasCards[index].icon,
-                                      size: 25,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      estatisticasCards[index].titulo ?? '',
-                                      style: GoogleFonts.sourceSans3(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EmDesenvolvimento()),
+                                );
+                              },
+                              child: Card(
+                                color: const Color.fromARGB(255, 138, 25, 214),
+                                child: Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        estatisticasCards[index].icon,
+                                        size: 25,
                                         color: Colors.white,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                                      Text(
+                                        estatisticasCards[index].titulo ?? '',
+                                        style: GoogleFonts.sourceSans3(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 13.0, right: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Mensagens recentes',
+                      style: GoogleFonts.sourceSans3(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 31, 57),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Ver mais",
+                          style: GoogleFonts.sourceSans3(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                            color: const Color.fromARGB(255, 0, 31, 57),
+                          ),
+                        ),
+                        IconIconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EmDesenvolvimento()),
+                            );
+                          },
+                          buttonSize: 30.0,
+                          iconColor: Colors.white,
+                          icon: Icons.arrow_forward_ios,
+                          backgroundColor:
+                              const Color.fromARGB(255, 138, 25, 214),
+                          iconSize: 15.0,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(50.0)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 13.0, right: 16.0),
+                child: SizedBox(
+                  height: 250.0,
+                  child: Obx(
+                    () => ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: mensagensCards.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 85.0,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmDesenvolvimento()),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: mensagensCards[index].imagem ??
+                                        Image.asset(
+                                          'assets/images/perfil_padrao.jpg',
+                                          width: 70.0,
+                                          height: 70.0,
+                                        ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            mensagensCards[index].nome ?? '',
+                                            style: GoogleFonts.sourceSans3(
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color.fromARGB(
+                                                  255, 0, 31, 57),
+                                            ),
+                                          ),
+                                          Text(
+                                            mensagensCards[index].assunto ?? '',
+                                            style: GoogleFonts.sourceSans3(
+                                              fontSize: 15.0,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10.0, right: 8.0),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        mensagensCards[index].data ?? '',
+                                        style: GoogleFonts.sourceSans3(
+                                          fontSize: 15.0,
+                                          color: const Color.fromARGB(
+                                              255, 0, 31, 57),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -157,6 +315,12 @@ class _HomeState extends State<Home> {
             ],
           ),
         ],
+      ),
+      bottomNavigationBar: Obx(
+        () => CustomBottomNavigationBar(
+          currentIndex: _selectedIndex.value,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

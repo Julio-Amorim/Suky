@@ -21,7 +21,7 @@ class EstatisticasCardModel {
         titulo: '52\nVendidos',
       ),
       EstatisticasCardModel(
-        icon: IconsaxPlusLinear.backward_10_seconds,
+        icon: IconsaxPlusLinear.money_send,
         titulo: 'R\$ 9Mil\nLucro',
       ),
     ];
