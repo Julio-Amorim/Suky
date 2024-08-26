@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suky/src/components/custom_appbar.dart';
+import 'package:suky/src/components/custom_bottom_navigation_bar.dart';
 
 class EmDesenvolvimento extends StatefulWidget {
   const EmDesenvolvimento({super.key});
@@ -10,6 +13,12 @@ class EmDesenvolvimento extends StatefulWidget {
 }
 
 class _EmDesenvolvimentoState extends State<EmDesenvolvimento> {
+  final RxInt _selectedIndex = 0.obs;
+
+  void _onItemTapped(int index) {
+    _selectedIndex.value = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +51,12 @@ class _EmDesenvolvimentoState extends State<EmDesenvolvimento> {
                   fontWeight: FontWeight.w500,
                 )),
           ],
+        ),
+      ),
+      bottomNavigationBar: Obx(
+        () => CustomBottomNavigationBar(
+          currentIndex: _selectedIndex.value,
+          onTap: _onItemTapped,
         ),
       ),
     );

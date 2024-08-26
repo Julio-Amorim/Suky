@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
                     Text(
                       'Mensagens recentes',
                       style: GoogleFonts.sourceSans3(
-                        fontSize: 22.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                         color: const Color.fromARGB(255, 0, 31, 57),
                       ),
@@ -197,7 +197,6 @@ class _HomeState extends State<Home> {
                         Text(
                           "Ver mais",
                           style: GoogleFonts.sourceSans3(
-                            fontSize: 20.0,
                             fontWeight: FontWeight.w600,
                             color: const Color.fromARGB(255, 0, 31, 57),
                           ),
