@@ -15,6 +15,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(home: Home());
+    return const GetMaterialApp(home: Suky());
   }
 }
